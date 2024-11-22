@@ -1,0 +1,55 @@
+<style>
+    .Centré{
+        text-align: center;
+        align-self: center;
+    }
+    </style>
+    <html>
+    
+    <input id="PassWord" class="Centré" type="text" placeholder="IP de requête"/> <button id="LOGIN", class="button buttonImportant" type="button"> Send </button> 
+    <br>
+    <input id="Voiture0" class="Centré" type="text" placeholder="Voiture"/> <button id="Depart", class="button buttonImportant" type="button"> Départ </button> <button id="Kill", class="button buttonImportant" type="button"> Kill </button> 
+
+    </html>
+    
+    <script>
+    var Login=document.getElementById("LOGIN");
+    Login.addEventListener("mousedown", LogMe);
+    var Depart=document.getElementById("Depart");
+    Depart.addEventListener("mousedown", Departing);
+    var Kill=document.getElementById("Kill");
+    Kill.addEventListener("mousedown", Killing);
+    var Password=document.getElementById("PassWord");
+    var Voiture=document.getElementById("Voiture0");
+    
+    function SendPacket(adresse){ //Une fonction de pour envoyer tous les packets pour interagir avec le serveur (voir l'explication de la structure dans app.py). Ici la requête est vide et c'est par l'URL utilisée (et ses données supplémentaires avec le ?value) qu'on extrait des données 
+        console.log(adresse)
+        url=adresse;
+        var raw ="" ;
+    
+        var requestOptions = {
+            method: 'POST', //On précise bien la méthode POST
+            mode: 'no-cors', //Evite des erreurs, ignore la réponse du serveur
+            body: raw,
+            redirect: 'follow',
+        };
+    
+        fetch(url, requestOptions) //Indications d'erreur pour débugger
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
+    
+    function LogMe(){
+        SendPacket(Password.value);
+      }
+    
+    function Departing(){
+        SendPacket("/forceinrequest?nature=depart&id="+Voiture.value)
+    }
+
+    function Killing(){
+        SendPacket("/forceinrequest?nature=kill&id="+Voiture.value)
+    }
+    </script>
+

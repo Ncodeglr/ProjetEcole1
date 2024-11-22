@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utiliser la Caméra en HTML</title>
+</head>
+<body>
+    <video id="webcam" width="640" height="480" autoplay></video>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier si l'API getUserMedia est disponible
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                // Accéder à la webcam
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then((stream) => {
+                        // Connecter le flux de la webcam à l'élément vidéo
+                        const video = document.getElementById('webcam');
+                        video.srcObject = stream;
+                    })
+                    .catch((error) => {
+                        console.error('Erreur d\'accès à la webcam : ', error);
+                    });
+            } else {
+                console.error('getUserMedia n\'est pas pris en charge dans ce navigateur.');
+            }
+        });
+    </script>
+</body>
+</html>
